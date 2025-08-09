@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+
+body {
+    display: inline-block !important;
+}
