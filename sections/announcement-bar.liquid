@@ -1,24 +1,69 @@
-<div role="region" aria-label="Announcement bar" class="bg-orange-300 w-full py-2.5 text-center">
-  {{ section.settings.announcement_desc }}
+<style>
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    display: inline-flex;
+    animation: marquee 55s linear infinite;
+    will-change: transform;
+  }
+</style>
+
+<div class="w-full overflow-hidden whitespace-nowrap bg-amber-300 py-2.5 relative">
+  {% if section.blocks.size > 0 %}
+    {% assign blocks_texts = section.blocks | map: 'settings.block_text' %}
+  {% else %}
+    {% assign blocks_texts = "Announcement text" | split: "," %}
+  {% endif %}
+  
+  {% for row in (1..2) %}
+    <div class="animate-marquee">
+      {% assign doubled_texts = blocks_texts | concat: blocks_texts %}
+      
+      {% for text in doubled_texts %}
+        <span class="inline-flex items-center mx-10">
+          <span class="text-xl text-white uppercase font-Outfit md:font-medium whitespace-normal">
+            {{ text }}
+          </span>
+        </span>
+      {% endfor %}
+    </div>
+  {% endfor %}
 </div>
 
 {% schema %}
 {
-  "name": "Announcement Bar",
+  "name": "Marquee Announcement Bar",
   "tag": "section",
-  "class": "announcement-bar",
-  "settings": [
+  "class": "announcement-marquee",
+  "settings": [],
+  "blocks": [
     {
-      "type": "richtext",
-      "id": "announcement_desc",
-      "label": "Write your shop announcement description",
-      "default": "<p>Stylish, responsive announcement bar powered by Tailwind CSS for Shopify.</p>"
+      "type": "announcement",
+      "name": "Announcement Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "block_text",
+          "label": "Text",
+          "default": "Your announcement here"
+        }
+      ]
     }
   ],
+  "max_blocks": 10,
   "presets": [
     {
-      "name": "Announcement Bar",
-      "settings": {}
+      "name": "Marquee Announcement Bar",
+      "category": "Announcement",
+      "blocks": [
+        { "type": "announcement", "settings": { "block_text": "ENVIRONMENTAL" } },
+        { "type": "announcement", "settings": { "block_text": "RENEWABLE ENERGY" } },
+        { "type": "announcement", "settings": { "block_text": "ANIMAL PROTECTION" } },
+        { "type": "announcement", "settings": { "block_text": "INNOVATION ECOLOGY" } }
+      ]
     }
   ]
 }
