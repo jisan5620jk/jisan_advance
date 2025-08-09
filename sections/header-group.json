@@ -17,25 +17,25 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "block_text": "Welcome To Our Store"
+            "block_text": "Your announcement here"
           }
         },
         "announcement_KWXMjC": {
           "type": "announcement",
           "settings": {
-            "block_text": "25% Offer is Running"
+            "block_text": "Your announcement here"
           }
         },
         "announcement_GUrGRr": {
           "type": "announcement",
           "settings": {
-            "block_text": "Free shipping offer"
+            "block_text": "Your announcement here"
           }
         },
         "announcement_iaBV47": {
           "type": "announcement",
           "settings": {
-            "block_text": "Winter seal is coming"
+            "block_text": "Your announcement here"
           }
         }
       },

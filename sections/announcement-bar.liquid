@@ -6,44 +6,41 @@
 
   .animate-marquee {
     display: inline-flex;
-    animation: marquee 55s linear infinite;
+    animation: marquee 50s linear infinite;
     will-change: transform;
   }
 </style>
 
-<div class="w-full overflow-hidden whitespace-nowrap bg-amber-300 py-2.5 relative">
-  <div class="container">
-    {% if section.blocks.size > 0 %}
-      {% assign blocks_exist = true %}
-    {% else %}
-      {% assign blocks_exist = false %}
-    {% endif %}
-    
-    {% for row in (1..2) %}
-      <div class="animate-marquee">
-        {% if blocks_exist %}
-          {% comment %} Loop blocks twice for marquee effect {% endcomment %}
-          {% for i in (1..2) %}
-            {% for block in section.blocks %}
+
+<div class="w-full bg-amber-300 py-2.5">
+  <div class="container mx-auto">
+    <div class="w-full overflow-hidden whitespace-nowrap">
+        {% if section.blocks.size > 0 %}
+          {% assign blocks_exist = true %}
+        {% else %}
+          {% assign blocks_exist = false %}
+        {% endif %}
+        
+        {% for row in (1..2) %}
+          <div class="animate-marquee">
+            {% if blocks_exist %}
+              {% for block in section.blocks %}
+                <span class="inline-flex items-center mx-10">
+                  <span class="text-xl text-white uppercase font-Outfit md:font-medium whitespace-normal">
+                    {{ block.settings.block_text }}
+                  </span>
+                </span>
+              {% endfor %}
+            {% else %}
               <span class="inline-flex items-center mx-10">
-                <span class="text-xl text-white uppercase font-Outfit md:font-medium whitespace-normal">
-                  {{ block.settings.block_text }}
+                <span class="text-xl text-white whitespace-normal">
+                  Announcement text
                 </span>
               </span>
-            {% endfor %}
-          {% endfor %}
-        {% else %}
-          {% comment %} No blocks: show default text twice {% endcomment %}
-          {% for i in (1..2) %}
-            <span class="inline-flex items-center mx-10">
-              <span class="text-xl text-white whitespace-normal">
-                Announcement text
-              </span>
-            </span>
-          {% endfor %}
-        {% endif %}
-      </div>
-    {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+    </div>
   </div>
 </div>
 
