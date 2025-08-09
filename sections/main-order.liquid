@@ -1,0 +1,196 @@
+
+
+<style>
+  .order-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #333;
+  }
+
+  .order-container h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .order-table th,
+  .order-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .order-table th {
+    background-color: #f4f4f4;
+    font-weight: 600;
+  }
+
+  .order-summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .order-box {
+    flex: 1;
+    min-width: 300px;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    padding: 15px;
+  }
+
+  .summary-box {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+
+  .summary-box p {
+    margin: 5px 0;
+  }
+
+  .summary-box .total {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  .login-required {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+  }
+
+  .login-required a {
+    color: #0073e6;
+    text-decoration: underline;
+  }
+
+  .text-small {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .status-box {
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 10px;
+  }
+</style>
+
+
+
+{% if order and customer %}
+  <div class="order-container">
+    <h1>Order #{{ order.name }}</h1>
+    <p>Placed on {{ order.created_at | date: "%B %d, %Y" }}</p>
+
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th style="width: 50%">Order Status</th>
+          <th style="width: 50%">Shipping Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="status-box"><strong>Payment Status:</strong> {{ order.financial_status_label }}</div>
+            <div class="status-box"><strong>Fulfillment Status:</strong> {{ order.fulfillment_status_label }}</div>
+          </td>
+          <td>
+            <p>
+              {{ order.shipping_address.name }}<br>
+              {{ order.shipping_address.address1 }}<br>
+              {% if order.shipping_address.address2 != blank %}
+                {{ order.shipping_address.address2 }}<br>
+              {% endif %}
+              {{ order.shipping_address.city }}, {{ order.shipping_address.province }}<br>
+              {{ order.shipping_address.zip }}, {{ order.shipping_address.country }}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top: 40px;">Items</h2>
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for line_item in order.line_items %}
+          <tr>
+            <td>
+              {% if line_item.url != blank %}
+                <a href="{{ line_item.url }}">
+                  {{ line_item.product.title | escape }}
+                </a>
+              {% else %}
+                {{ line_item.product.title | escape }}
+              {% endif %}
+
+              {% if line_item.variant.title != blank and line_item.variant.title != 'Default Title' %}
+                <p class="text-small">{{ line_item.variant.title }}</p>
+              {% endif %}
+            </td>
+
+            <td>{{ line_item.final_price | money }}</td>
+            <td>{{ line_item.quantity }}</td>
+            <td>{{ line_item.final_line_price | money }}</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="order-summary-row">
+      <div class="order-box">
+        <h3>Billing Address</h3>
+        <p>
+          {{ order.billing_address.name }}<br>
+          {{ order.billing_address.address1 }}<br>
+          {% if order.billing_address.address2 != blank %}
+            {{ order.billing_address.address2 }}<br>
+          {% endif %}
+          {{ order.billing_address.city }}, {{ order.billing_address.province }}<br>
+          {{ order.billing_address.zip }}, {{ order.billing_address.country }}
+        </p>
+      </div>
+
+      <div class="order-box summary-box">
+        <h3>Order Summary</h3>
+        <p>Subtotal: {{ order.subtotal_price | money }}</p>
+
+        {% if order.shipping_price > 0 %}
+          <p>Shipping: {{ order.shipping_price | money }}</p>
+        {% endif %}
+
+        <p>Tax: {{ order.tax_price | money }}</p>
+
+        <p class="total">Total: {{ order.total_price | money }}</p>
+      </div>
+
+    </div>
+  </div>
+{% else %}
+  <div class="login-required">
+    <p>You must be <a href="{{ routes.account_login_url }}">logged in</a> to view this order.</p>
+  </div>
+{% endif %}

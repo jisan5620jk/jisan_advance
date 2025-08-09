@@ -1,0 +1,178 @@
+{%- style -%}
+  .custom-login-wrapper {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.custom-login-wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #222;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #444;
+}
+
+.login-links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
+
+.form-errors {
+  background: #ffe0e0;
+  color: #d00;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.success-message {
+  background: #e0ffe0;
+  color: #007000;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+{%- endstyle -%}
+
+
+<div class="custom-login-wrapper">
+  <!-- Login Form -->
+  <div id="login-form">
+    <h2>Login</h2>
+
+    {% form 'customer_login' %}
+      {% if form.errors %}
+        <div class="form-errors">
+          {% for field in form.errors %}
+            <p>{{ field | capitalize }} - {{ form.errors.messages[field] }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="form-group">
+        <label for="customer_email">Email</label>
+        <input
+          type="email"
+          name="customer[email]"
+          id="customer_email"
+          required
+          {% if form.email %}
+            value="{{ form.email }}"
+          {% endif %}
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="customer_password">Password</label>
+        <input
+          type="password"
+          name="customer[password]"
+          id="customer_password"
+          required
+        >
+      </div>
+
+      <button type="submit" class="login-button">Login</button>
+    {% endform %}
+
+    <div class="login-links">
+      <p>If you don’t have an account, <a href="{{ routes.account_register_url }}">Create Account</a></p>
+      <p><a href="#" onclick="showForgotPassword(event)">Forgot your password?</a></p>
+    </div>
+  </div>
+
+  <!-- Forgot Password Form -->
+  <div id="forgot-password-form" style="display:none;">
+    <h2>Reset Your Password</h2>
+
+    {% form 'recover_customer_password' %}
+      {% if form.posted_successfully? %}
+        <p class="success-message">We’ve sent you an email with password reset instructions.</p>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="form-errors">
+          {% for field in form.errors %}
+            <p>{{ form.errors.messages[field] }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="form-group">
+        <label for="recover_email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="recover_email"
+          required
+        >
+      </div>
+
+      <button type="submit" class="login-button">Send Reset Link</button>
+    {% endform %}
+
+    <p><a href="#" onclick="showLoginForm(event)">Back to Login</a></p>
+  </div>
+</div>
+
+<!-- Toggle Script -->
+<script>
+  function showForgotPassword(e) {
+    e.preventDefault();
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('forgot-password-form').style.display = 'block';
+  }
+
+  function showLoginForm(e) {
+    e.preventDefault();
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('forgot-password-form').style.display = 'none';
+  }
+</script>

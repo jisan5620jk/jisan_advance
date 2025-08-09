@@ -1,0 +1,157 @@
+
+
+{%- style -%}
+  .account-wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.account-wrapper h2 {
+  font-size: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.account-sections {
+  display: grid;
+  gap: 30px;
+}
+
+.account-box {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.account-box h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.account-orders {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.account-orders th, .account-orders td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.account-orders th {
+  background: #eee;
+}
+
+.address-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.tag-default {
+  background-color: #4caf50;
+  color: white;
+  padding: 3px 6px;
+  font-size: 12px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #222;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #444;
+}
+
+{%- endstyle -%}
+
+
+<div class="account-wrapper">
+  <h2>Welcome, {{ customer.first_name }}!</h2>
+
+  <div class="account-sections">
+
+    <!-- 🧑 Customer Info -->
+    <div class="account-box">
+      <h3>Your Info</h3>
+      <p><strong>Name:</strong> {{ customer.first_name }} {{ customer.last_name }}</p>
+      <p><strong>Email:</strong> {{ customer.email }}</p>
+      <p><a href="{{ routes.account_logout_url }}" class="btn">Log Out</a></p>
+    </div>
+
+    <!-- 📦 Order History -->
+    <div class="account-box">
+      <h3>Your Orders</h3>
+      {% if customer.orders.size > 0 %}
+        <table class="account-orders">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Date</th>
+              <th>Payment</th>
+              <th>Fulfillment</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in customer.orders %}
+              <tr>
+                <td>
+                  <a href="{{ order.customer_url }}">#{{ order.name }}</a>
+                </td>
+                <td>{{ order.created_at | date: "%B %d, %Y" }}</td>
+                <td>{{ order.financial_status | capitalize }}</td>
+                <td>{{ order.fulfillment_status | capitalize }}</td>
+                <td>{{ order.total_price | money }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>You haven’t placed any orders yet.</p>
+      {% endif %}
+    </div>
+
+    <!-- 🏠 Address Book -->
+    <div class="account-box">
+      <h3>Saved Addresses</h3>
+      {% if customer.addresses.size > 0 %}
+        {% for address in customer.addresses %}
+          <div class="address-card">
+            <p>{{ address.first_name }} {{ address.last_name }}</p>
+            <p>{{ address.address1 }}</p>
+            {% if address.address2 != blank %}
+              <p>{{ address.address2 }}</p>
+            {% endif %}
+            <p>{{ address.city }}, {{ address.province }} {{ address.zip }}</p>
+            <p>{{ address.country }}</p>
+            <p>{{ address.phone }}</p>
+            <p>
+              <a href="{{ routes.account_addresses_url }}#edit_address_{{ address.id }}" class="btn">Edit</a>
+              {% if address.default %}
+                <span class="tag-default">Default</span>
+              {% endif %}
+            </p>
+          </div>
+        {% endfor %}
+        <p><a href="{{ routes.account_addresses_url }}" class="btn">Manage All Addresses</a></p>
+      {% else %}
+        <p>You have no saved addresses.</p>
+        <p><a href="{{ routes.account_addresses_url }}" class="btn">Add Address</a></p>
+      {% endif %}
+    </div>
+
+  </div>
+</div>

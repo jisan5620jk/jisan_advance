@@ -1,0 +1,136 @@
+{%- style -%}
+
+  .collection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+{%- endstyle -%}
+
+
+{%- assign product_limit = section.settings.product_limit -%}
+
+{%- assign show_second_image = section.settings.show_second_image -%}
+
+{%- liquid
+  
+  case section.settings.column
+    when 2
+      assign column = 2
+    when 3
+      assign column = 3
+    when 4
+      assign column = 4
+    when 5
+      assign column = 5
+    when 6
+      assign column = 3
+    when 8
+      assign column = 4
+    when 10
+      assign column = 5
+    when 12
+      assign column = 4
+      
+    else
+      assign column = 4
+  endcase
+
+-%}
+
+
+
+<div class="collection-page" style="display: grid; grid-template-columns: repeat(4, 1fr); align-items:center;">
+  <div>{%- render 'collection-filter', collection: collection -%}</div>
+
+  <div style="grid-column: 2/5;">
+    <div class="collection-header">
+      <h5>Products ({{ collection.all_products_count }})</h5>
+      <div style="display: flex;">
+        <label for="sort-by">Sort By: </label>
+        <select name="sort-by" id="sort-by" class="sort-by">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}" 
+              {%- if option.value == collection.sort_by -%} selected {%- endif -%}
+            >{{ option.name }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+    <div class="collection-grid" style="display: grid; align-items: center; gap: 20px; grid-template-columns: repeat({{ column }}, 1fr);">
+      {%- paginate collection.products by product_limit -%}
+        
+        {%- for product in collection.products -%}
+          <div>
+            {%- render 'product-card', 
+              product: product ,
+              show_second_image: show_second_image
+            -%}
+          </div>
+        {%- endfor -%}
+
+        <div>{%- render 'collection-pagination', paginate: paginate -%}</div>
+
+      {%- endpaginate -%}
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  Shopify.queryParams = {};
+
+  const params = new URLSearchParams(window.location.search);
+
+  params.forEach((value, key) => {
+    Shopify.queryParams[key] = value;
+  });
+
+  document.querySelector('.sort-by').addEventListener('change', function (e) {
+    const value = e.currentTarget.value;
+    Shopify.queryParams.sort_by = value;
+
+    // Replace current URL query string
+    window.location.search = new URLSearchParams(Shopify.queryParams).toString();
+  });
+
+</script>
+{% schema %}
+  {
+    "name": "Collection all",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_second_image",
+        "label": "Show Second Image",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "product_limit",
+        "min": 2,
+        "max": 12,
+        "step": 1,
+        "label": "Select number product you see!",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "column",
+        "min": 2,
+        "max": 12,
+        "step": 1,
+        "label": "Select number column!",
+        "default": 4
+      },
+    ],
+    "presets": [
+      {
+        "name": "Collection all",
+        "category": "collection"
+      }
+    ]
+  }
+{% endschema %}

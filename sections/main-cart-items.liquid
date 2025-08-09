@@ -1,0 +1,298 @@
+<style>
+
+
+.cart-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+table.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-table th {
+  background: #fafafa;
+}
+
+.cart-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.cart-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: #1c64f2;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #eee;
+  color: #333;
+}
+
+.note-box textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  min-height: 80px;
+}
+
+.total {
+  text-align: right;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.product-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-quantity button {
+  padding: 6px 12px;
+  background: #eee;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.qty-input {
+  width: 50px;
+  text-align: center;
+  font-size: 16px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.4em;
+  color: #777;
+}
+
+</style>
+
+
+<div class="cart-wrapper">
+  <h1>Your Shopping Cart</h1>
+
+  {% if cart.item_count == 0 %}
+    <div class="empty-message">
+      <img src="{{ 'icon-cart-empty.svg' | asset_url }}" width="200px" alt="Cart Icon"> <br>
+        Your cart is currently empty.
+      </div>
+  {% else %}
+
+  <form action="/cart" method="post" novalidate>
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Title</th>
+          <th>Variant</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart.items %}
+         inventory {{ item.variant.inventory_quantity }}
+        <tr>
+          <td>
+            <img class="cart-image" src="{{ item.image | img_url: 'small' }}" alt="{{ item.title }}">
+          </td>
+          <td>{{ item.product.title }}</td>
+          <td>
+            {% if item.product.has_only_default_variant == false or item.properties.size == 0 or item.selected_selling_plan_allocation != null %}
+              {%- for option in item.options_with_values -%}
+                <h4 style="margin: 0;">{{ option.name }}: {{ option.value }}</h4>
+              {%- endfor -%}
+            {% else %}
+              —
+            {% endif %}
+          </td>
+          <td>{{ item.price | money }}</td>
+          <td>
+            <div class="product-quantity">
+              <button type="button" class="decreaseBtn" data-line="{{ forloop.index0 }}">−</button>
+
+              <input
+                type="text"
+                name="updates[]"
+                class="qty-input"
+                data-line="{{ forloop.index0 }}"
+                value="{{ item.quantity }}"
+                min="1"
+                data-max="{{ item.variant.inventory_quantity }}"
+              >
+
+              <button type="button" class="increaseBtn" data-line="{{ forloop.index0 }}">+</button>
+            </div>
+
+          </td>
+
+          <td>{{ item.line_price | money }}</td>
+          <td>
+            <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="btn btn-secondary">{%- render 'icons', icon: 'trash' -%}</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="total">
+      Subtotal: {{ cart.total_price | money }}
+    </div>
+
+    {% if cart.cart_level_discount_applications.size > 0 %}
+      <div>
+        <strong>Discounts:</strong>
+        <ul>
+          {% for discount in cart.cart_level_discount_applications %}
+            <li>{{ discount.title }} – {{ discount.total_allocated_amount | money }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <div class="note-box">
+      <label for="CartSpecialInstructions">Order Notes:</label>
+      <textarea name="note" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-buttons">
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-secondary">Continue Shopping</a>
+        <input
+          type="submit"
+          id="updateCartBtn"
+          name="update"
+          value="Update Cart"
+          class="btn btn-secondary"
+        />
+
+      </div>
+
+      <button type="submit" name="checkout" class="btn btn-primary">Proceed to Checkout</button>
+    </div>
+  </form>
+
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".product-quantity").forEach(group => {
+      const input = group.querySelector(".qty-input");
+      const max = parseInt(input.dataset.max);
+
+      const updateReadonly = () => {
+        const current = parseInt(input.value) || 1;
+        input.readOnly = current >= max;
+      };
+
+      updateReadonly(); // apply on load
+
+      group.querySelector(".increaseBtn").onclick = () => {
+        let val = parseInt(input.value) || 1;
+        if (val < max) input.value = val + 1;
+        updateReadonly();
+      };
+
+      group.querySelector(".decreaseBtn").onclick = () => {
+        let val = parseInt(input.value) || 1;
+        if (val > 1) input.value = val - 1;
+        updateReadonly();
+      };
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const updateButton = document.getElementById("updateCartBtn");
+
+    const checkInventoryLimits = () => {
+      let shouldDisable = false;
+
+      document.querySelectorAll(".qty-input").forEach(input => {
+        const current = parseInt(input.value) || 1;
+        const max = parseInt(input.dataset.max) || 1;
+
+        if (current >= max) {
+          shouldDisable = true;
+        }
+      });
+
+      if (shouldDisable) {
+        updateButton.disabled = true;
+        updateButton.title = "Product quantity is not available";
+      } else {
+        updateButton.disabled = false;
+        updateButton.removeAttribute("title");
+      }
+    };
+
+    // Call this when the page loads
+    checkInventoryLimits();
+
+    // Also call when any increase/decrease happens
+    document.querySelectorAll(".increaseBtn, .decreaseBtn").forEach(btn => {
+      btn.addEventListener("click", checkInventoryLimits);
+    });
+
+    // And if you allow manual typing:
+    document.querySelectorAll(".qty-input").forEach(input => {
+      input.addEventListener("input", checkInventoryLimits);
+    });
+  });
+</script>
+

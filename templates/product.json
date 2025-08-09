@@ -1,0 +1,84 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "vendor_87AWaJ": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "variant_cekFaG": {
+          "type": "variant",
+          "settings": {}
+        },
+        "quantity_MT7x7X": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "button_8aMxAP": {
+          "type": "button",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "description",
+        "vendor_87AWaJ",
+        "variant_cekFaG",
+        "quantity_MT7x7X",
+        "button_8aMxAP"
+      ],
+      "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "related_product_HXRD9Q": {
+      "type": "related-product",
+      "name": "Releted Product",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "related_product_HXRD9Q",
+    "related-products"
+  ]
+}
