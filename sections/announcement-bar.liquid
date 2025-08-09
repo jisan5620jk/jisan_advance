@@ -6,7 +6,7 @@
 
   .animate-marquee {
     display: inline-flex;
-    animation: marquee 50s linear infinite;
+    animation: marquee 40s linear infinite;
     will-change: transform;
   }
 </style>
@@ -26,7 +26,7 @@
             {% if blocks_exist %}
               {% for block in section.blocks %}
                 <span class="inline-flex items-center mx-10">
-                  <span class="text-xl text-white uppercase font-Outfit md:font-medium whitespace-normal">
+                  <span class="text-xl text-white font-Outfit whitespace-normal">
                     {{ block.settings.block_text }}
                   </span>
                 </span>
@@ -59,7 +59,7 @@
           "type": "text",
           "id": "block_text",
           "label": "Text",
-          "default": "Your announcement here"
+          "default": "Welcome To Our Store"
         }
       ]
     }
