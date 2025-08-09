@@ -17,23 +17,35 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
-            "link": ""
+            "block_text": "Your announcement here"
+          }
+        },
+        "announcement_KWXMjC": {
+          "type": "announcement",
+          "settings": {
+            "block_text": "Your announcement here"
+          }
+        },
+        "announcement_GUrGRr": {
+          "type": "announcement",
+          "settings": {
+            "block_text": "Your announcement here"
+          }
+        },
+        "announcement_iaBV47": {
+          "type": "announcement",
+          "settings": {
+            "block_text": "Your announcement here"
           }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "announcement-bar-0",
+        "announcement_KWXMjC",
+        "announcement_GUrGRr",
+        "announcement_iaBV47"
       ],
-      "settings": {
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "color_scheme": "scheme-1",
-        "show_line_separator": true,
-        "show_social": false,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      }
+      "settings": {}
     },
     "header": {
       "type": "header",
