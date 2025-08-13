@@ -11,35 +11,32 @@
   }
 </style>
 
-
 <div class="w-full bg-amber-300 py-2.5">
   <div class="container mx-auto">
     <div class="w-full overflow-hidden whitespace-nowrap">
-        {% if section.blocks.size > 0 %}
-          {% assign blocks_exist = true %}
-        {% else %}
-          {% assign blocks_exist = false %}
-        {% endif %}
-        
-        {% for row in (1..2) %}
-          <div class="animate-marquee">
-            {% if blocks_exist %}
-              {% for block in section.blocks %}
-                <span class="inline-flex items-center mx-10">
-                  <span class="text-2xl text-white font-Outfit whitespace-normal">
-                    {{ block.settings.block_text }}
-                  </span>
-                </span>
-              {% endfor %}
-            {% else %}
+      {% if section.blocks.size > 0 %}
+        {% assign blocks_exist = true %}
+      {% else %}
+        {% assign blocks_exist = false %}
+      {% endif %}
+
+      {% for row in (1..2) %}
+        <div class="animate-marquee">
+          {% if blocks_exist %}
+            {% for block in section.blocks %}
               <span class="inline-flex items-center mx-10">
-                <span class="text-2xl text-white whitespace-normal">
-                  Announcement text
+                <span class="text-2xl text-white font-Outfit whitespace-normal">
+                  {{ block.settings.block_text }}
                 </span>
               </span>
-            {% endif %}
-          </div>
-        {% endfor %}
+            {% endfor %}
+          {% else %}
+            <span class="inline-flex items-center mx-10">
+              <span class="text-2xl text-white whitespace-normal"> Welcome to our store </span>
+            </span>
+          {% endif %}
+        </div>
+      {% endfor %}
     </div>
   </div>
 </div>
@@ -53,7 +50,7 @@
   "blocks": [
     {
       "type": "announcement",
-      "name": "Announcement Text",
+      "name": "Announcement text",
       "settings": [
         {
           "type": "text",
