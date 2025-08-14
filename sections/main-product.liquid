@@ -124,7 +124,7 @@
     transition: 0.25s;
   }
 
-  .variant-options input[type="radio"]:checked + label {
+  .variant-options input[type="radio"]:checked + label.variant-label {
     background-color: #000;
     color: #fff;
     border-color: #000;
@@ -287,7 +287,10 @@
                               checked
                             {% endif %}
                           >
-                          <label for="{{ value | escape }}" class="cursor-pointer border px-3 py-1 rounded">
+                          <label
+                            for="{{ value | escape }}"
+                            class="variant-label cursor-pointer border px-3 py-1 rounded"
+                          >
                             {{ value | escape }}
                           </label>
                         {% endif %}
