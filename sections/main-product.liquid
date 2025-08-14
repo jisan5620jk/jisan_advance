@@ -204,10 +204,9 @@
         {%- for image in product.media -%}
           <img
             class="thumbnail {% if image.src == product.featured_image %} active {% endif %}"
-            src="{{ image.src | image_url: 'master' }}"
-            data-large="{{ image.src | image_url: 'master' }}"
+            src="{{ image.src | img_url: 'master' }}"
+            data-large="{{ image.src | img_url: 'master' }}"
             media-id="{{ image.id }}"
-            alt="{{ image.alt }}"
             width="100%"
             height="auto"
           >
