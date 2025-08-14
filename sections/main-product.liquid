@@ -116,34 +116,19 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    max-height:40px;
+    padding: 6px 16px;
     height:100%;
     transition: 0.25s ease;
     background-color: #f9f9f9;
     color: #333;
     user-select: none;
-  }
-
-  .variant-options label.disabled {
-    border-color: red;
-    color: red;
-    cursor: no-drop;
-    opacity: 30%;
+    transition: 0.25s;
   }
 
   .variant-options input[type="radio"]:checked + span {
     background-color: #000;
     color: #fff;
     border-color: #000;
-  }
-
-  .variant-options span {
-    display: inline-block;
-    border-radius: 5px;
-    padding: 6px 16px;
-    max-height:40px;
-    height:100%;
-    transition: 0.25s;
   }
 
   @media (hover: hover) {
