@@ -125,14 +125,14 @@
     transition: 0.25s;
   }
 
-  .variant-options input[type="radio"]:checked + span {
+  .variant-options input[type="radio"]:checked + label {
     background-color: #000;
     color: #fff;
     border-color: #000;
   }
 
   @media (hover: hover) {
-    .variant-options label:hover span {
+    .variant-options label:hover {
       background-color: #e5e5e5;
     }
   }
@@ -190,9 +190,10 @@
         {%- for image in product.media -%}
           <img
             class="thumbnail {% if image.src == product.featured_image %} active {% endif %}"
-            src="{{ image.src | img_url: 'master' }}"
-            data-large="{{ image.src | img_url: 'master' }}"
+            src="{{ image.src | image_url: 'master' }}"
+            data-large="{{ image.src | image_url: 'master' }}"
             media-id="{{ image.id }}"
+            alt="{{  }}"
           >
         {%- endfor -%}
       </div>
