@@ -264,7 +264,6 @@
                             type="radio"
                             name="{{ option.name | downcase }}"
                             value="{{ value | escape }}"
-                            class="sr-only"
                             {% if value == option.selected_value %}
                               checked
                             {% endif %}
@@ -281,7 +280,6 @@
                             type="radio"
                             name="{{ option.name | downcase }}"
                             value="{{ value | escape }}"
-                            class="sr-only"
                             {% if value == option.selected_value %}
                               checked
                             {% endif %}
