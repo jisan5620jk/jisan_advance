@@ -269,6 +269,7 @@
                             {% endif %}
                           >
                           <label
+                            for="{{ option.name | downcase }}"
                             class="cursor-pointer block w-8 h-8 rounded-full border border-gray-300"
                             style="background-color: {{ value | escape }};"
                             title="{{ value }}"
@@ -284,7 +285,7 @@
                               checked
                             {% endif %}
                           >
-                          <label class="cursor-pointer border px-3 py-1 rounded">
+                          <label for="{{ option.name | downcase }}" class="cursor-pointer border px-3 py-1 rounded">
                             {{ value | escape }}
                           </label>
                         {% endif %}
