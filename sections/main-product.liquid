@@ -252,21 +252,45 @@
                 </script>
 
                 {% for option in product.options_with_values %}
+                  {% assign option_name_downcase = option.name | downcase %}
+
                   <fieldset data-option-index="{{ forloop.index0 }}">
                     <legend>{{ option.name }}</legend>
-                    <div class="variant-options">
+                    <div class="variant-options flex gap-2 flex-wrap">
                       {% for value in option.values %}
-                        <label>
-                          <input
-                            type="radio"
-                            name="{{ option.name | downcase }}"
-                            value="{{ value | escape }}"
-                            {% if value == option.selected_value %}
-                              checked
-                            {% endif %}
-                          >
-                          {{ value | escape }}
-                        </label>
+                        {% if option_name_downcase contains 'color' %}
+                          <!-- Color Swatch -->
+                          <label class="cursor-pointer">
+                            <input
+                              type="radio"
+                              name="{{ option.name | downcase }}"
+                              value="{{ value | escape }}"
+                              class="sr-only"
+                              {% if value == option.selected_value %}
+                                checked
+                              {% endif %}
+                            >
+                            <span
+                              class="block w-8 h-8 rounded-full border border-gray-300"
+                              style="background-color: {{ value | escape }};"
+                              title="{{ value }}"
+                            ></span>
+                          </label>
+                        {% else %}
+                          <!-- Regular Text Option -->
+                          <label class="cursor-pointer border px-3 py-1 rounded">
+                            <input
+                              type="radio"
+                              name="{{ option.name | downcase }}"
+                              value="{{ value | escape }}"
+                              class="sr-only"
+                              {% if value == option.selected_value %}
+                                checked
+                              {% endif %}
+                            >
+                            {{ value | escape }}
+                          </label>
+                        {% endif %}
                       {% endfor %}
                     </div>
                   </fieldset>
