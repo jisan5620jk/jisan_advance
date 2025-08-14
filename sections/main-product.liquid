@@ -183,18 +183,23 @@
 <div class="product-section">
   <div class="product-image">
     <div class="main-image">
-      <img id="currentImage" src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
+      {{
+        product.featured_image
+        | image_url: width: product.featured_image.width, height: product.featured_image.height
+        | image_tag: alt: product.title, class: 'main-image'
+      }}
     </div>
     {%- if product.images.size > 1 -%}
       <div class="thumbnail-row">
         {%- for image in product.media -%}
-          {{ image | image_url: width: image.width, height: image.height | image_tag: alt: image.alt, loading: 'lazy' }}
           <img
             class="thumbnail {% if image.src == product.featured_image %} active {% endif %}"
-            src="{{ image.src | image_url: 'master' }}"
-            data-large="{{ image.src | image_url: 'master' }}"
+            src="{{ image.src | image_url: width: product.featured_image.width, height: product.featured_image.height }}"
+            data-large="{{ image.src | image_url: width: product.featured_image.width, height: product.featured_image.height }}"
             media-id="{{ image.id }}"
-            alt="{{  }}"
+            alt="{{ image.alt }}"
+            width="100%"
+            height="auto"
           >
         {%- endfor -%}
       </div>
