@@ -188,6 +188,7 @@
     {%- if product.images.size > 1 -%}
       <div class="thumbnail-row">
         {%- for image in product.media -%}
+          {{ image | image_url: width: image.width, height: image.height | image_tag: alt: image.alt, loading: 'lazy' }}
           <img
             class="thumbnail {% if image.src == product.featured_image %} active {% endif %}"
             src="{{ image.src | image_url: 'master' }}"
