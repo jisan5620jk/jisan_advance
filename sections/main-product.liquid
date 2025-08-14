@@ -84,73 +84,73 @@
 
 
   .product-variants {
-      margin-top: 2rem;
-    }
+    margin-top: 2rem;
+  }
 
-    .product-variants fieldset {
-      border: none;
-      margin-bottom: 1.5rem;
-      padding: 0;
-    }
+  .product-variants fieldset {
+    border: none;
+    margin-bottom: 1.5rem;
+    padding: 0;
+  }
 
-    .product-variants legend {
-      font-size: 18px;
-      font-weight: 600;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      color: #333;
-    }
+  .product-variants legend {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    color: #333;
+  }
 
-    .variant-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+  .variant-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-    .variant-options input[type="radio"] {
-      display: none;
-    }
+  .variant-options input[type="radio"] {
+    display: none;
+  }
 
-    .variant-options label {
-      border: 1px solid black;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      max-height:40px;
-      height:100%;
-      transition: 0.25s ease;
-      background-color: #f9f9f9;
-      color: #333;
-      user-select: none;
-    }
+  .variant-options label {
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    max-height:40px;
+    height:100%;
+    transition: 0.25s ease;
+    background-color: #f9f9f9;
+    color: #333;
+    user-select: none;
+  }
 
-    .variant-options label.disabled {
-      border-color: red;
-      color: red;
-      cursor: no-drop;
-      opacity: 30%;
-    }
+  .variant-options label.disabled {
+    border-color: red;
+    color: red;
+    cursor: no-drop;
+    opacity: 30%;
+  }
 
-    .variant-options input[type="radio"]:checked + span {
-      background-color: #000;
-      color: #fff;
-      border-color: #000;
-    }
+  .variant-options input[type="radio"]:checked + span {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+  }
 
-    .variant-options span {
-      display: inline-block;
-      border-radius: 5px;
-      padding: 6px 16px;
-      max-height:40px;
-      height:100%;
-      transition: 0.25s;
-    }
+  .variant-options span {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 6px 16px;
+    max-height:40px;
+    height:100%;
+    transition: 0.25s;
+  }
 
-    @media (hover: hover) {
-      .variant-options label:hover span {
-        background-color: #e5e5e5;
-      }
+  @media (hover: hover) {
+    .variant-options label:hover span {
+      background-color: #e5e5e5;
     }
+  }
 
   .product-quantity {
     display: flex;
@@ -274,7 +274,7 @@
                               checked
                             {% endif %}
                           >
-                          <span>{{ value | escape }}</span>
+                          {{ value | escape }}
                         </label>
                       {% endfor %}
                     </div>
