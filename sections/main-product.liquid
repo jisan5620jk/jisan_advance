@@ -263,13 +263,14 @@
                           <input
                             type="radio"
                             name="{{ option.name | downcase }}"
+                            id="{{ value | escape }}""
                             value="{{ value | escape }}"
                             {% if value == option.selected_value %}
                               checked
                             {% endif %}
                           >
                           <label
-                            for="{{ option.name | downcase }}"
+                            for="{{ value | escape }}""
                             class="cursor-pointer block w-8 h-8 rounded-full border border-gray-300"
                             style="background-color: {{ value | escape }};"
                             title="{{ value }}"
@@ -280,12 +281,13 @@
                           <input
                             type="radio"
                             name="{{ option.name | downcase }}"
+                            id="{{ value | escape }}""
                             value="{{ value | escape }}"
                             {% if value == option.selected_value %}
                               checked
                             {% endif %}
                           >
-                          <label for="{{ option.name | downcase }}" class="cursor-pointer border px-3 py-1 rounded">
+                          <label for="{{ value | escape }}"" class="cursor-pointer border px-3 py-1 rounded">
                             {{ value | escape }}
                           </label>
                         {% endif %}
