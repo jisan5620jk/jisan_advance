@@ -124,8 +124,14 @@
     transition: 0.25s;
   }
 
+  .variant-options label.color-label {
+    width: 45px;
+    height: 45px;
+    border-radius: 30px;
+  }
+
   .variant-options input[type="radio"]:checked + label {
-    border: 2px solid rgb(217, 255, 0);
+    border: 5px solid rgb(217, 255, 0);
   }
 
   .variant-options input[type="radio"]:checked + label.variant-label {
@@ -275,7 +281,7 @@
                           >
                           <label
                             for="{{ value | escape }}"
-                            class="cursor-pointer block w-8 h-8 rounded-full border border-gray-300"
+                            class="color-label cursor-pointer block w-8 h-8 rounded-full border border-gray-300"
                             style="background-color: {{ value | escape }};"
                             title="{{ value }}"
                           >
